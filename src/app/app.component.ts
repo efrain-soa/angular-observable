@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { UserService } from './user.service';
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-root',
@@ -6,5 +9,20 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular-observable';
+  private users$: Observable<any[]>;
+
+  constructor(private userService: UserService) { }
+
+  ngOnInit() {
+    this.users$ = this.userService.getUsers();
+    this.userService.loadDummyData();
+  }
+
+  createUser(user) {
+    this.userService.createNewUser(user);
+  }
+
+  approveAll() {
+    this.userService.approveAll();
+  }
 }
